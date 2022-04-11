@@ -25,7 +25,6 @@ router.get('/', (req, res) => {
   })
 
   router.post('/', (req, res) => {
-
     Posts.find({category: req.body.category}).then(data => {
       res.status(200).json(data); 
     })
@@ -33,7 +32,6 @@ router.get('/', (req, res) => {
 
 router.post('/post', (req, res) => {
 
-  console.log(req.body.content.domain)
   const newPost = new Posts({
     name: req.user.name, 
     email: req.user.email, 

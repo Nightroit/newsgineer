@@ -12,23 +12,26 @@ import './Main.css'
 function Main({type, filterPost, page, token, filter}) {
     const [feed, setFeed] = useState({})
     const [isLoading, setIsloading] = useState(true); 
-    useEffect(() => {
+
+ 
+        useEffect(() => {
+            if(filter != "") {
+            request('categoryFilter',  {category: filter, token: localStorage.getItem('token')}, function(data, err) {
+                if(data) {
+                    setFeed(data);  
+                }
+            })
+            }
+        }, [filter])
+    
+    useEffect(() => { 
         request("feed", localStorage.getItem('token'), function(data, err) {
             if(data) {
                 setFeed(data)
             }
         })
-    }, [])
-
-    useEffect(() => {
-
-        request('categoryFilter',  {category: filter, token: localStorage.getItem('token')}, function(data, err) {
-            if(data) {
-                setFeed(data);  
-            }
-        })
-    }, [filter])
-
+    }, [1])
+    
     useEffect(() => {
         if(Object.keys(feed).length != 0) {
             setIsloading(false)

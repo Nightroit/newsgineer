@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export default function(type, data, callback) {
-    console.log(type); 
     if(type == "post") {
         console.log("HERE"); 
         axios.post('http://localhost:5000/api/post', {content: data.content}, {
@@ -22,6 +21,7 @@ export default function(type, data, callback) {
      
     }
     if(type = "categoryFilter") {
+        
         axios.post('http://localhost:5000/api/', {category: data.category}, {
             headers: {
                 'Authorization': `${data.token}` 
