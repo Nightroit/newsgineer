@@ -1,0 +1,32 @@
+.posts {
+    margin-left: 101px !important; 
+    margin-top: 30px; 
+}
+.postsUl {
+   list-style-type: none; 
+}
+.postsLink {
+    color: rgb(68, 67, 67);
+    font-size: 20px; 
+    font-weight: 550;
+    text-decoration: none;
+}
+
+.postDet {
+    margin-top: -10px; 
+    margin-left: 25px;
+    display: flex; 
+}
+
+.postDet > p {
+    color: rgb(75, 75, 75); 
+    font-size: 14px; 
+    font-weight: 500;
+}
+
+.postIdx{
+    font-size: 20px; 
+    color: rgb(129, 129, 129); 
+    margin-right: 10px; 
+}
+

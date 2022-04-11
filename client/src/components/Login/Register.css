@@ -1,0 +1,27 @@
+.Register  {
+    color: white;
+    padding: 55px;
+    position: absolute;
+    top: 49%;
+    left: 68%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    border: 1px solid white;
+    height: 240px; 
+    border-radius: 5px;
+} 
+
+.Error {
+ 
+    color: white;
+    padding: 55px;
+    position: absolute;
+    margin-top: 100px; 
+    top: 73%;
+    left: 66%; 
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    border-radius: 5px;
+}
