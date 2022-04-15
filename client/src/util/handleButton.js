@@ -33,8 +33,10 @@ export default function(e, errors, username, password, confirmPassword='', setEr
                             if(err) {
                                 callback(null, err)
                             } else {
+                                console.log(res.data); 
                                 localStorage.setItem('token', res.data.token)
                                 const myDecodedToken = decodeToken(res.data.token);
+                                console.log(myDecodedToken)
                                 callback(myDecodedToken, null)
                             }
                         })

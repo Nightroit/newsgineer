@@ -10,8 +10,8 @@ import ShortLister from './Sidebar/ShortLister'
 import './Main.css'
 
 function postSortComp(a, b) {
-    if(a.upVotes > b.upVotes) return a; 
-    return b; 
+    if(a.upVotes.length > b.upVotes.length) return true; 
+    return false; 
 }
 
 function Main({type, filterPost, page, token, filter}) {
@@ -22,23 +22,13 @@ function Main({type, filterPost, page, token, filter}) {
     function navigatePlus() {
         let val = pageNo + 14
         setPageNo(val)
-            request("feed", {token: localStorage.getItem('token'), pageNo: val}, function(data, err) { 
-                if(data) {
-                    setFeed(data);
-                }
-            })  
     }
     function navigateMinus() {
         let val = pageNo - 14
         setPageNo(val)
-            request("feed", {token: localStorage.getItem('token'), pageNo: val}, function(data, err) { 
-                if(data) {
-                    setFeed(data);
-                }
-            })  
+          
     }
     useEffect(() => {
-            console.log('called')
             if(filter != "") {
             request('categoryFilter',  {category: filter, token: localStorage.getItem('token')}, function(data, err) {
                 if(data) {
@@ -54,12 +44,13 @@ function Main({type, filterPost, page, token, filter}) {
     }, [feed])
     
     useEffect(() => { 
-        request("feed", {token: localStorage.getItem('token'), pageNo: 0}, function(data, err) { 
+        request("feed", {token: localStorage.getItem('token'), pageNo}, function(data, err) { 
             if(data) {
+                data.data.sort((a, b) => (a.upVotes.length > b.upVotes.length) ? -1 :  1); 
                 setFeed(data);
             }
         })
-    }, [0])
+    }, [pageNo])
     
 
     if(isLoading) {
@@ -83,9 +74,9 @@ function Main({type, filterPost, page, token, filter}) {
                     {(page == "post") ? <CreatePost/> : <Posts feed = {feed}/>}
                   
                     <span className = "main_navigate_span">
-                    {(pageNo > 0) ? <a target = "_blank" onClick = {navigateMinus} className = "main_navigate">Back</a> : ''}
+                    {(pageNo > 0 ) ? <a target = "_blank" onClick = {navigateMinus} className = "main_navigate">Back</a> : ''}
                     &nbsp;&nbsp;
-                        <a target = "_blank" onClick = {navigatePlus} className = "main_navigate">Next</a>  
+                       { feed.data.length == 14? <a target = "_blank" onClick = {navigatePlus} className = "main_navigate">Next</a> : "" } 
                     
                     </span>
                 </div>

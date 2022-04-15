@@ -31,6 +31,7 @@ function Login({flip, detailsUpdate, login}) {
 
     function handleClick() {
         buttonHandle("login", errors, username, password, '', setError, "", function(data, err) {
+
             if(data) {
                detailsUpdate(data.name);
               

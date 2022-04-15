@@ -27,18 +27,32 @@ function convertDate(inputFormat) {
 }
 
 router.post('/', (req, res) => {
+ 
+  let query;
 
   let currentDate = new Date(); 
   let now = new Date();
   now.setDate(now.getDate()-7); 
   let oldDate = now; 
+  query =   {
+    "createdAt": {
+      $gte: oldDate,
+      $lt: currentDate,
+    }, 
+  }
+  if(req.body.category != undefined) {
+      query =   {
+    "createdAt": {
+      $gte: oldDate,
+      $lt: currentDate,
+    }, 
+    "category": req.body.category
+    }
+  }
 
-   Posts.find({
-      "createdAt": {
-          $gte: oldDate,
-          $lt: currentDate,
-      }
-    }).sort({_id: -1}).skip(req.body.skip).limit(14).then(data => {
+
+  
+   Posts.find(query).sort({_id: -1}).skip(req.body.skip).limit(14).then(data => {
         res.status(200).json(data)
     })
   })

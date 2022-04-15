@@ -30,6 +30,8 @@
 }
 
 .postLike {  
+    color: rgb(136, 93, 6);
+
     margin-left: -2px;
     margin-right: 1px; 
     display: inline; 

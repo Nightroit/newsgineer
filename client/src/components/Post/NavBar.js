@@ -7,6 +7,11 @@ export default function({type}) {
         type(data)
     }
 
+    function handleLogout() {
+        localStorage.removeItem("token"); 
+        window.location.reload(); 
+    }
+
     return (
         
         <div className = "nav">
@@ -28,6 +33,11 @@ export default function({type}) {
             <div className = "news" >
                 <h4 onClick = {() => {handleClick("news")}}>
                     News
+                </h4>
+            </div>
+            <div className = "logout">
+                <h4 onClick = {handleLogout}>
+                    Logout
                 </h4>
             </div>
         </div>

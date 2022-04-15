@@ -1,20 +1,23 @@
 import * as React from 'react';
+import {useEffect} from 'react'; 
+
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import './CreatePost.css'
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+
 import validator from '../../util/validator';
 import request from '../../util/axios'
 
+import './CreatePost.css'
 export default function StateTextFields() {
   const [link, setLink] = React.useState('');
   const [heading, setHeading] = React.useState('');
-  const [domain, setDomain] = React.useState('0'); 
+  const [domain, setDomain] = React.useState(''); 
   const [btn, setBtn] = React.useState(1); 
   const [message, setMessage] = React.useState([]); 
   const handleChange = (event) => {
@@ -26,13 +29,17 @@ export default function StateTextFields() {
     }
     else {
       setDomain(event.target.value);  
-    }
+
+  };
+}
+  useEffect(() => {
 
     if(validator(link, "link") && validator(heading, "heading") && domain != '') {
       setBtn(0); 
+    } else {
+      setBtn(1); 
     }
-  };
-
+  },[link, heading, domain])
   const buttonClick = () => {
       let content = {
         link, 
