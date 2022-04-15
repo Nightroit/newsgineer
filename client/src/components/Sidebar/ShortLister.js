@@ -3,24 +3,45 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
 import {useState} from 'react'; 
+import Slider from '@mui/material/Slider';
+import request from '../../util/axios'
+import "./SideBar.css"
 
 const styles = {
     "&.MuiButton-root": {
-      border: "1px orange solid"
+      border: "1px #90cbf8 solid"
     },
     "&.MuiButton-text": {
       color: "grey"
     },
     "&.MuiButton-outlined": {
-      color: "orange"
+      color: "#90cbf8"
     },    
 
   };
-  const selectedStyle = {backgroundColor: "orange", color: "white"}
+  const selectedStyle = {backgroundColor: "#90cbf8", color: "black"}
 
 
-export default function GroupOrientation({filterPost}) {
+export default function GroupOrientation({filterPost, setFeed}) {
 const [selected, changeSelected] = useState(0);
+const [slider, changeSlider] = useState(7); 
+
+function handleSlider(e) {
+  if(e.target.value < 7) changeSlider(7); 
+  else changeSlider(e.target.value); 
+
+}
+
+function sliderApply() {
+  request("timeFilter", slider, function(data, err) {
+    if(data) {
+      setFeed(data); 
+    } else {
+      console.log("Some error at time filter"); 
+      console.log(err); 
+    }
+  })
+}
 
 const buttonClicked = (e) => {
     let str = e.target.innerText; 
@@ -43,24 +64,32 @@ const buttons = [
   ];
   
   return (
-    <Box
-    sx={{
-      display: 'flex',
-      '& > *': {
-        m: 1,
-      },
-    }}
+    <div
+      className = "sidebarMain"
+    
   >
-
   <ButtonGroup
       className = "sidebarButtons"
       sx={styles}
       orientation="vertical"
-     
-    >
+      
+      >
+      <h3 className = "sidebarPast"> Shortlist the domain</h3>
+
       {buttons}
     </ButtonGroup>
-  </Box>
+   
+  
+    <Box  className = "sidebarSlider" width={300}>
+      <h3 className = "sidebarPast">News of past:  &nbsp;{slider} Days</h3>
+      <Slider
+        onChange = {handleSlider}
+        style = {{color: "#90cbf8"}}
+        defaultValue={9} aria-label="Default" valueLabelDisplay="auto" />
+          <Button onClick = {sliderApply} style = {{color: '#90cbf8'}}  sx={styles} key="9">Apply</Button>,
+    </Box>
+
+  </div>
 
   );
 }

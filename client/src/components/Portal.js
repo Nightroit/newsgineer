@@ -4,6 +4,7 @@ import Register from './Login/Register'
 import * as actions from '../actions/index'
 import {connect} from 'react-redux'; 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import './Portal.css'
 
 function Portal({flip, flipVal}) {
     const theme = React.useMemo(
@@ -18,11 +19,12 @@ function Portal({flip, flipVal}) {
       
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
+      <div className="Portal">
+
         <div className = "sidebar">
         </div>
-
-        <div className = "main">
+      
+        <div className = "portalMain">
           {flipVal ? <Login flip = {flip} />: <Register flip = {flip}/>}
 
         </div>

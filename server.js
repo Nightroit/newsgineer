@@ -41,7 +41,13 @@ app.post("/api/", (req, res) => {
 
   let currentDate = new Date(); 
   let now = new Date();
-  now.setDate(now.getDate()-7); 
+
+  let last = 7; 
+  if(req.body.last) {
+    last = req.body.last; 
+  }
+
+  now.setDate(now.getDate()-last); 
   let oldDate = now; 
   query =   {
     "createdAt": {
@@ -59,7 +65,8 @@ app.post("/api/", (req, res) => {
     }
   }
 
-   Posts.find(query).sort({_id: -1}).skip(req.body.skip).limit(14).then(data => {
+
+   Posts.find(query).sort({"upVotesLen": -1}).skip(req.body.skip).limit(14).then(data => {
         res.status(200).json(data)
     })
   

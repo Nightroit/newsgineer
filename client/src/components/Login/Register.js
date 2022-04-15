@@ -102,10 +102,10 @@ function Register({flip, detailsUpdate}) {
                         <br></br>
                         <div className = "button">
                             <Stack className = "button" spacing={2} direction="row">
-                                <Button variant = "contained" onClick = {(e) => {
+                                <Button style = {{color: "black", background: "#90cbf8"}} variant = "contained" onClick = {(e) => {
                                   handleClick(); 
                                 }}>Register</Button>
-                                <Button name = "login"  onClick = {(e) => {
+                                <Button style = {{color: "#90cbf8"}}name = "login"  onClick = {(e) => {
                                     setError([])
                                     flip(); 
                                 }

@@ -6,9 +6,10 @@ import Button from '@mui/material/Button';
 import buttonHandle from '../../util/handleButton';
 import * as actions from '../../actions/index';
 import {connect} from 'react-redux'; 
-
-
+import { makeStyles } from '@mui/styles';
 import './Login.css'
+
+
 
 function Login({flip, detailsUpdate, login}) {
     const [filled1, setFilled1] = React.useState(0)
@@ -45,7 +46,7 @@ function Login({flip, detailsUpdate, login}) {
                 <Box
                 component="form"
                 sx={{
-                    '& .MuiTextField-root': { m: 1, width: '30ch',  color: 'white'},
+                    '& .MuiTextField-root': { m: 1, width: '30ch',  color: 'black'},
                 }}
                 inputProps ={{
                     style: {
@@ -58,7 +59,8 @@ function Login({flip, detailsUpdate, login}) {
                     <div>
                         <div className = "text">
                             <TextField
-                            style={{ borderColor: 'white', color: `${'red'}` }}
+                          
+                            style={{ color: 'white', focus: "0.5px solid #90cbf8" }}
                             id="outlined-required"
                             label="Username or email"
                             
@@ -81,10 +83,10 @@ function Login({flip, detailsUpdate, login}) {
                     <br></br>
                         <div className = "button">
                             <Stack className = "button" spacing={2} direction="row">
-                                <Button variant = "contained" onClick = {(e) => {
+                                <Button style = {{color: "black", background: "#90cbf8"}} variant = "contained" onClick = {(e) => {
                                        handleClick()}
                                     }>Login</Button>
-                                <Button name = "register"  onClick = {(e) => {
+                                <Button style = {{color: "#90cbf8"}} name = "register"  onClick = {(e) => {
                                         flip(); 
                                         setError([])
                                       }  

@@ -34,8 +34,11 @@ function convertDate(inputFormat) {
     Posts.findById(mongoose.Types.ObjectId(id), function(err, data) {
 
       let rel = data.upVotes.find(e => e == username)
-      if(rel == undefined) data.upVotes.push(req.body.username)
-      data.save(); 
+      if(rel == undefined) {
+          data.upVotes.push(req.body.username)
+          data.upVotesLen++; 
+        }
+          data.save(); 
     })
     res.status(200)
   })
@@ -51,6 +54,7 @@ router.post('/post', (req, res) => {
       content: req.body.content
     },
     upVotes: [], 
+    upVotesLen: 0,
     createdAt: new Date(),
     category: domain(req.body.content.domain) 
   })

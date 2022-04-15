@@ -1,0 +1,17 @@
+.sidebarButtons {
+    margin-top: 50px !important; 
+    margin-left: 75px; 
+}
+
+.sidebarMain {
+    display: block;
+    align-items: center;
+    margin-left: 30px; 
+}
+.sidebarSlider {
+    margin-top: 100px; 
+    margin-left: 10px; 
+}
+.sidebarPast {
+    color: #90cbf8 !important; 
+}

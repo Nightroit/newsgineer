@@ -2,7 +2,7 @@ import React from 'react';
 import Portal from '../Portal';
 import './NavBar.css'
 
-export default function({type, auth}) {
+export default function({type, auth, logout}) {
 
     function handleClick(data) {
         type(data)
@@ -10,7 +10,8 @@ export default function({type, auth}) {
 
     function handleLog(e) {
         if(e) { 
-            return (<Portal/>)
+            logout(); 
+            handleClick("login")
         } else {
             localStorage.removeItem("token"); 
             window.location.reload(); 
@@ -36,7 +37,7 @@ export default function({type, auth}) {
                 </h4>
             </div>
             <div className = "logout">
-                {(auth.auth) ? <h4 onClick = {() => {handleLog(0)}}>Logout </h4> : <h4 onClick = {() => {handleClick("login")}}>Login</h4>}
+                {(auth.auth) ? <h4 onClick = {() => {handleLog(0)}}>Logout </h4> : <h4 onClick = {() => {handleLog(1)}}>Login</h4>}
             </div>
         </div>
     )

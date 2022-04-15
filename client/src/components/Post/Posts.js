@@ -1,10 +1,9 @@
 import React from 'react'; 
 import moment from 'moment'
 import request from '../../util/axios'
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 import ChangeHistoryIcon from '@mui/icons-material/ChangeHistory';import './Posts.css'
-import { grey } from '@mui/material/colors';
 
 const buttonStyle = {
     height: '15px', 
@@ -38,7 +37,7 @@ function likeOrLikes(num) {
     return " likes | "
 }
 
-export default function({feed}){ 
+export default function({feed, auth}){ 
     const username = useSelector(state => state.authReducer.username);
     return (
         <div className = "posts">   
@@ -49,12 +48,12 @@ export default function({feed}){
                     return (
                         <li className = "postLi">
                         <span className = "postIdx">{idx}.</span>
-                        <ChangeHistoryIcon style = {buttonStyle} onClick = {() => {handleLike(username, d._id)}} style={buttonStyle} className = "postLike"/>
+                        {(auth) ? <ChangeHistoryIcon style = {buttonStyle} onClick = {() => {handleLike(username, d._id)}} style={buttonStyle} className = "postLike"/>: ""}  
                         
                             <a className = "postsLink" href = {"//" + d.post.content.link} target= "_blank">{turnCate(d.post.content.heading)} </a>
                         
                         <span className = "postDet">
-                            <p className = "postLikes">{d.upVotes.length + likeOrLikes(d.upVotes.length)}</p>&nbsp;
+                            <p className = "postLikes">{d.upVotes.length + likeOrLikes(d.upVotesLen)}</p>&nbsp;
                             <p className = "postsName">{ " By " + d.name }</p> &nbsp;
                             <p className = "postsTime">{" | "+ moment(d.time).fromNow()}</p>
 

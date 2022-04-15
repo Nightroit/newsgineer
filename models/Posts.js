@@ -22,6 +22,10 @@ const Post = new Schema({
     type: Array, 
     required: true
   }, 
+  upVotesLen: {
+    type: Number, 
+    require: true
+  },
   category: {
     type: String
   },

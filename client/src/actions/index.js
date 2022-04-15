@@ -10,6 +10,12 @@ export function login() {
     }
 }
 
+export function logout() {
+    return {
+        type: 'UNAUTHENTICATED'
+    }
+}
+
 export function detailsUpdate(payload){ 
     return {
         type: 'DETAILS_UPDATE', 

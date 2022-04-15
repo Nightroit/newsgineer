@@ -14,11 +14,11 @@ function postSortComp(a, b) {
     return false; 
 }
 
-function Main({type, filterPost, page, token, filter, auth}) {
+function Main({type, filterPost, page, token, filter, auth, logout}) {
     const [feed, setFeed] = useState({});
     const [isLoading, setIsloading] = useState(true); 
     const [pageNo, setPageNo] = useState(0);
-    
+
     function navigatePlus() {
         let val = pageNo + 14
         setPageNo(val)
@@ -37,6 +37,7 @@ function Main({type, filterPost, page, token, filter, auth}) {
             })
             }
     }, [filter])
+
     useEffect(() => {
         if(Object.keys(feed).length != 0) {
             setIsloading(false)
@@ -64,14 +65,14 @@ function Main({type, filterPost, page, token, filter, auth}) {
     return (
         
         <div className = "main_head">
-            <NavBar type = {type} auth = {auth}/>
+            <NavBar type = {type} auth = {auth} logout = {logout}/>
 
             <main>
                 <div className = "main_sidebar">
-                    <ShortLister filterPost = {filterPost}/>
+                    <ShortLister filterPost = {filterPost} setFeed = {setFeed}/>
                 </div>
                 <div className = "main_post" >
-                    {(page == "post") ? <CreatePost/> : <Posts feed = {feed}/>}
+                    {(page == "post") ? <CreatePost/> : <Posts feed = {feed} auth = {auth}/>}
                   
                     <span className = "main_navigate_span">
                     {(pageNo > 0 ) ? <a target = "_blank" onClick = {navigateMinus} className = "main_navigate">Back</a> : ''}
@@ -87,14 +88,15 @@ function Main({type, filterPost, page, token, filter, auth}) {
 
 const mapDispatchToProps = {
     type: actions.type,
-    filterPost: actions.filterPost
+    filterPost: actions.filterPost, 
+    logout: actions.logout
   }
   
   const mapStateToProps = (store) => {
     return {
         page: store.pageReducer, 
         filter: store.postReducer, 
-        auth: store.authReducer, 
+        auth: store.authReducer,
     }
   }
   

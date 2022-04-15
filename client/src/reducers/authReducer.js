@@ -7,8 +7,9 @@ export default function (state = defaultState, action) {
         case 'AUTHENTICATED':
             return {auth: true}
         case 'DETAILS_UPDATE': 
-
             return  {auth: true, username: action.payload}
+        case 'UNAUTHENICATED': 
+            return {auth: false}
         default: 
             return state; 
     }

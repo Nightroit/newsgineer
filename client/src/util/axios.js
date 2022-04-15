@@ -13,9 +13,20 @@ export default function(type, data, callback) {
         }).catch((err) => {
             callback(null, err); 
         })
-        return;
+   
     }
-    
+    else if(type == "timeFilter") {
+        axios.post('http://localhost:5000/api/', {last: data}, {
+            headers: {
+                'Authorization': `${data.token}` 
+              }
+        }).then((data) => {
+            callback(data, null); 
+        }).catch((err) => {
+            callback(null, err); 
+        })
+
+    }
     else if(type == "like") {
         axios.post('http://localhost:5000/api/like', {postId: data.postId, username: data.username}, {
             headers: {
@@ -26,14 +37,13 @@ export default function(type, data, callback) {
         }).catch((err) => {
             callback(null, err); 
         })
-        return;
     }
     else if(type == "feed") {
         axios.post('http://localhost:5000/api/', {skip: data.pageNo}, { headers: {"Authorization" : `${data.token}`} })
             .then((data) => {
                 callback(data, null) 
             });
-     return;
+
     }
     else if(type == "categoryFilter") {
    
@@ -60,7 +70,6 @@ export default function(type, data, callback) {
 
             callback(null, err);
         })
-        return;
     } 
     else {
         axios.post('http://localhost:5000/api/users/register', {
@@ -77,6 +86,5 @@ export default function(type, data, callback) {
         .catch(err => {
             callback(null, err);
         })
-        return;
     }
 }
