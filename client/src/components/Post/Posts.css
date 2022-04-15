@@ -14,7 +14,7 @@
 
 .postDet {
     margin-top: -10px; 
-    margin-left: 25px;
+    margin-left: 35px;
     display: flex; 
 }
 
@@ -26,7 +26,11 @@
 
 .postIdx{
     font-size: 20px; 
-    color: rgb(129, 129, 129); 
-    margin-right: 10px; 
+    color: rgb(129, 129, 129);  
 }
 
+.postLike {  
+    margin-left: -2px;
+    margin-right: 1px; 
+    display: inline; 
+}

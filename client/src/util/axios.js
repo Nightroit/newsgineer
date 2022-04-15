@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default function(type, data, callback) {
     if(type == "post") {
-        console.log("HERE"); 
+       
         axios.post('http://localhost:5000/api/post', {content: data.content}, {
             headers: {
                 'Authorization': `${data.token}` 
@@ -12,13 +12,29 @@ export default function(type, data, callback) {
         }).catch((err) => {
             callback(null, err); 
         })
+        return;
     }
+    
+    if(type == "like") {
+        axios.post('http://localhost:5000/api/like', {postId: data.postId, username: data.username}, {
+            headers: {
+                'Authorization': `${data.token}` 
+              }
+        }).then((data) => {
+            callback(data, null); 
+        }).catch((err) => {
+            callback(null, err); 
+        })
+        return;
+    }
+
     if(type == "feed") {
-        axios.get('http://localhost:5000/api/', { headers: {"Authorization" : `${data}`} })
+        console.log("HERE")
+        axios.post('http://localhost:5000/api/', {skip: data.pageNo}, { headers: {"Authorization" : `${data.token}`} })
             .then((data) => {
                 callback(data, null) 
             });
-     
+     return;
     }
     if(type = "categoryFilter") {
         
@@ -46,6 +62,7 @@ export default function(type, data, callback) {
 
             callback(null, err);
         })
+        return;
     } 
     if(type == "register") {
         axios.post('http://localhost:5000/api/users/register', {
@@ -62,5 +79,6 @@ export default function(type, data, callback) {
         .catch(err => {
             callback(null, err);
         })
+        return;
     }
 }

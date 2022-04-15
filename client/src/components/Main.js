@@ -9,12 +9,36 @@ import CreatePost from '../components/Draft/CreatePost'
 import ShortLister from './Sidebar/ShortLister'
 import './Main.css'
 
-function Main({type, filterPost, page, token, filter}) {
-    const [feed, setFeed] = useState({})
-    const [isLoading, setIsloading] = useState(true); 
+function postSortComp(a, b) {
+    if(a.upVotes > b.upVotes) return a; 
+    return b; 
+}
 
- 
-        useEffect(() => {
+function Main({type, filterPost, page, token, filter}) {
+    const [feed, setFeed] = useState({});
+    const [isLoading, setIsloading] = useState(true); 
+    const [pageNo, setPageNo] = useState(0);
+    
+    function navigatePlus() {
+        let val = pageNo + 14
+        setPageNo(val)
+            request("feed", {token: localStorage.getItem('token'), pageNo: val}, function(data, err) { 
+                if(data) {
+                    setFeed(data);
+                }
+            })  
+    }
+    function navigateMinus() {
+        let val = pageNo - 14
+        setPageNo(val)
+            request("feed", {token: localStorage.getItem('token'), pageNo: val}, function(data, err) { 
+                if(data) {
+                    setFeed(data);
+                }
+            })  
+    }
+    useEffect(() => {
+            console.log('called')
             if(filter != "") {
             request('categoryFilter',  {category: filter, token: localStorage.getItem('token')}, function(data, err) {
                 if(data) {
@@ -22,21 +46,21 @@ function Main({type, filterPost, page, token, filter}) {
                 }
             })
             }
-        }, [filter])
-    
-    useEffect(() => { 
-        request("feed", localStorage.getItem('token'), function(data, err) {
-            if(data) {
-                setFeed(data)
-            }
-        })
-    }, [1])
-    
+    }, [filter])
     useEffect(() => {
         if(Object.keys(feed).length != 0) {
             setIsloading(false)
         }
     }, [feed])
+    
+    useEffect(() => { 
+        request("feed", {token: localStorage.getItem('token'), pageNo: 0}, function(data, err) { 
+            if(data) {
+                setFeed(data);
+            }
+        })
+    }, [0])
+    
 
     if(isLoading) {
         return(
@@ -58,8 +82,13 @@ function Main({type, filterPost, page, token, filter}) {
                 <div className = "main_post" >
                     {(page == "post") ? <CreatePost/> : <Posts feed = {feed}/>}
                   
+                    <span className = "main_navigate_span">
+                    {(pageNo > 0) ? <a target = "_blank" onClick = {navigateMinus} className = "main_navigate">Back</a> : ''}
+                    &nbsp;&nbsp;
+                        <a target = "_blank" onClick = {navigatePlus} className = "main_navigate">Next</a>  
+                    
+                    </span>
                 </div>
-                
             </main>
         </div>
     )

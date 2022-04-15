@@ -1,8 +1,11 @@
 const express = require("express");
+var mongoose = require('mongoose');
 const router = express.Router();
 const keys = require("../../config/keys");
 const Posts = require("../../models/Posts");
 const User = require("../../models/User");
+const moment = require('moment')
+
 function domain(num) {
   switch(num) {
     case "1": return "Aeronautical";
@@ -17,18 +20,42 @@ function domain(num) {
   }
 }
 
-router.get('/', (req, res) => {
+function convertDate(inputFormat) {
+  function pad(s) { return (s < 10) ? '0' + s : s; }
+  var d = new Date(inputFormat)
+  return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('-')
+}
 
-   Posts.find({}).then(data => {
-    res.status(200).json(data)
-   })
-  })
+router.post('/', (req, res) => {
 
-  router.post('/', (req, res) => {
-    Posts.find({category: req.body.category}).then(data => {
-      res.status(200).json(data); 
+  let currentDate = new Date(); 
+  let now = new Date();
+  now.setDate(now.getDate()-7); 
+  let oldDate = now; 
+
+   Posts.find({
+      "createdAt": {
+          $gte: oldDate,
+          $lt: currentDate,
+      }
+    }).sort({_id: -1}).skip(req.body.skip).limit(14).then(data => {
+        res.status(200).json(data)
     })
   })
+
+  router.post('/like', (req, res) => {
+
+    let username = req.body.username; 
+    let id = req.body.postId; 
+    Posts.findById(mongoose.Types.ObjectId(id), function(err, data) {
+
+      let rel = data.upVotes.find(e => e == username)
+      if(rel == undefined) data.upVotes.push(req.body.username)
+      data.save(); 
+    })
+    res.status(200)
+  })
+  
 
 router.post('/post', (req, res) => {
 
@@ -39,7 +66,8 @@ router.post('/post', (req, res) => {
       date: new Date(),
       content: req.body.content
     },
-    upVotes: 0, 
+    upVotes: [], 
+    createdAt: new Date(),
     category: domain(req.body.content.domain) 
   })
 

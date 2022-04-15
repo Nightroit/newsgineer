@@ -19,10 +19,15 @@ const Post = new Schema({
     required: true
   }, 
   upVotes: {
-    type: Number
+    type: Array, 
+    required: true
   }, 
   category: {
     type: String
+  },
+  createdAt: {
+    type: Date, 
+    required: true
   }
-});
+}, {retainKeyOrder: true});
 module.exports = User = mongoose.model("posts", Post);
