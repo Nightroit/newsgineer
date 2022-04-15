@@ -1,6 +1,3 @@
-
-import { isExpired, decodeToken } from "react-jwt";
-
 export function flip() {
     return {
         type: 'FLIP'

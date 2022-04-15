@@ -15,37 +15,26 @@ class App extends React.Component {
   }
   
   render() {
-
-    if(this.props.authDet.auth) return <Main/>
-    
     // Gettin the token
     let token = localStorage.getItem('token');
-    if(!token) {
-      return <Portal/>
+    if(isExpired(token)) {
+      localStorage.removeItem('token'); 
     }
-    else if(isExpired(token)) {
-        localStorage.removeItem('token')
-    }  
-    else {
-      
-        const myDecodedToken = decodeToken(token);
-        this.props.detailsUpdate(myDecodedToken.name)
-        return (
-            <Main token = {token}/>
-          )
-      }
- 
+    if(this.props.authDet.auth) {
+      return <Main/>
+    } else if(this.props.page == "login") return <Portal/>
+    else return <Main/>
   }
 }
 
 const mapStateToProps = (store) => {
   return {
-    authDet: store.authReducer
+    authDet: store.authReducer, 
+    page: store.pageReducer
   }
 }
 const mapDispatchToProps = {
-  flip: actions.flip,
-  detailsUpdate: actions.detailsUpdate
+  detailsUpdate: actions.detailsUpdate,
 }
 
 

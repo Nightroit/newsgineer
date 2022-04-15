@@ -14,7 +14,7 @@ function postSortComp(a, b) {
     return false; 
 }
 
-function Main({type, filterPost, page, token, filter}) {
+function Main({type, filterPost, page, token, filter, auth}) {
     const [feed, setFeed] = useState({});
     const [isLoading, setIsloading] = useState(true); 
     const [pageNo, setPageNo] = useState(0);
@@ -64,7 +64,7 @@ function Main({type, filterPost, page, token, filter}) {
     return (
         
         <div className = "main_head">
-            <NavBar type = {type}/>
+            <NavBar type = {type} auth = {auth}/>
 
             <main>
                 <div className = "main_sidebar">
@@ -93,7 +93,8 @@ const mapDispatchToProps = {
   const mapStateToProps = (store) => {
     return {
         page: store.pageReducer, 
-        filter: store.postReducer
+        filter: store.postReducer, 
+        auth: store.authReducer, 
     }
   }
   

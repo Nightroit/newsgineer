@@ -9,6 +9,8 @@ const app = express();
 const db = require("./config/keys").mongoURI;
 const cors = require("cors")
 
+const Posts = require("./models/Posts")
+
 // Bodyparser initialization --------------------------------
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -34,8 +36,40 @@ require("./config/passport")(passport);
 // Routes ------------------------------------------------
 app.use("/api/users", users);
 
+app.post("/api/", (req, res) => {
+  let query;
+
+  let currentDate = new Date(); 
+  let now = new Date();
+  now.setDate(now.getDate()-7); 
+  let oldDate = now; 
+  query =   {
+    "createdAt": {
+      $gte: oldDate,
+      $lt: currentDate,
+    }, 
+  }
+  if(req.body.category != undefined) {
+      query =   {
+    "createdAt": {
+      $gte: oldDate,
+      $lt: currentDate,
+    }, 
+    "category": req.body.category
+    }
+  }
+
+   Posts.find(query).sort({_id: -1}).skip(req.body.skip).limit(14).then(data => {
+        res.status(200).json(data)
+    })
+  
+  })
+
 // Secured routes ------------------------------------------------
 app.use("/api/", passport.authenticate('jwt', {session: false}), secured)
+
+
+// Non Secured routes ---------------------------------------------
 
 // Port listening -------------------------------------------
 const port = process.env.PORT || 5000; 
