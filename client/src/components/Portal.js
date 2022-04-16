@@ -25,6 +25,12 @@ function Portal({flip, flipVal}) {
         </div>
       
         <div className = "portalMain">
+          <div className = "portalSlogan">
+            <h1 class="gradient-text text1">News of the geeks</h1>
+        
+            <h1 class="gradient-text text2">News for the geeks</h1>
+            <h1 class="gradient-text text3">News By the geeks</h1>
+          </div>
           {flipVal ? <Login flip = {flip} />: <Register flip = {flip}/>}
 
         </div>

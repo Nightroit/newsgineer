@@ -14,6 +14,16 @@ export default function(type, data, callback) {
             callback(null, err); 
         })
    
+    } else if(type == "deletePost") {
+        axios.post('http://localhost:5000/api/deletePost', {postId: data.postId}, {
+            headers: {
+                'Authorization': `${data.token}` 
+              }
+        }).then((data) => {
+            callback(data, null); 
+        }).catch((err) => {
+            callback(null, err); 
+        })
     }
     else if(type == "timeFilter") {
         axios.post('http://localhost:5000/api/', {last: data}, {
@@ -26,6 +36,16 @@ export default function(type, data, callback) {
             callback(null, err); 
         })
 
+    } else if(type == "profile") {
+        axios.post("http://localhost:5000/api/profile", {username: data.username}, {
+            headers: {
+                'Authorization': `${data.token}` 
+              }
+        }).then(data => {
+            callback(data, null); 
+        }).catch(err => {
+            callback(null, err); 
+        })
     }
     else if(type == "like") {
         axios.post('http://localhost:5000/api/like', {postId: data.postId, username: data.username}, {

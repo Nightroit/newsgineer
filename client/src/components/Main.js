@@ -7,6 +7,7 @@ import * as actions from '../actions/index'
 import Posts from './Post/Posts';
 import CreatePost from '../components/Draft/CreatePost'
 import ShortLister from './Sidebar/ShortLister'
+import Profile from './Profile/Profile'
 import './Main.css'
 
 function postSortComp(a, b) {
@@ -72,12 +73,13 @@ function Main({type, filterPost, page, token, filter, auth, logout}) {
                     <ShortLister filterPost = {filterPost} setFeed = {setFeed}/>
                 </div>
                 <div className = "main_post" >
-                    {(page == "post") ? <CreatePost/> : <Posts feed = {feed} auth = {auth}/>}
-                  
+                    {(page == "post") ? <CreatePost/> : ""}
+                    {(page == "news") ? <Posts feed = {feed} auth = {auth}/> : ""}
+                    {(page == "profile") ? <Profile token = {token} auth = {auth}/> : ""}
                     <span className = "main_navigate_span">
                     {(pageNo > 0 ) ? <a target = "_blank" onClick = {navigateMinus} className = "main_navigate">Back</a> : ''}
                     &nbsp;&nbsp;
-                       { feed.data.length == 14? <a target = "_blank" onClick = {navigatePlus} className = "main_navigate">Next</a> : "" } 
+                       { (feed.data.length == 14 && page == "news")? <a target = "_blank" onClick = {navigatePlus} className = "main_navigate">Next</a> : "" } 
                     
                     </span>
                 </div>

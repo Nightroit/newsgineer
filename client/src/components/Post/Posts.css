@@ -36,3 +36,9 @@
     margin-right: 1px; 
     display: inline; 
 }
+
+.postsDelete {
+    color: red !important; 
+    margin-left: 5px;
+    cursor: pointer; 
+}

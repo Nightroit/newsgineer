@@ -1,44 +1,39 @@
 import React from 'react'; 
 import moment from 'moment'
+import {likeOrLikes, turnCate} from  '../../util/utilityFunc'
 import request from '../../util/axios'
-import {useSelector} from "react-redux";
-import {likeOrLikes, turnCate} from '../../util/utilityFunc'
 
-import ChangeHistoryIcon from '@mui/icons-material/ChangeHistory';import './Posts.css'
-
-const buttonStyle = {
-    height: '15px', 
-    cursor: 'pointer'  
-}
+import '../Post/Posts.css'
 
 
-function handleLike(username, postId) {
-    console.log(username)
-    request("like", {
-        username, 
-        postId, 
-        token: localStorage.getItem('token')
-    }, function(data, err) {
-        if(err) {
-            console.log("Something went while liking")
-            console.log(err); 
-        }
-    })
-}
 
 
-export default function({feed, auth}){ 
-    const username = useSelector(state => state.authReducer.username);
+export default function ProfilePosts({posts, token}) {
+    posts.map(d => {
+        console.log(d);
+    }) 
+    
+    function handleDelete(postId) {
+        request("deletePost", {token, postId}, function(res, err) {
+            if(res) {
+                window.location.reload(); 
+            } else {
+                console.log("Something went wrong at postDelete component"); 
+                console.log(err); 
+            }
+        })
+    }
+    
     return (
-        <div className = "posts">   
+        //Ram//
+        <div>
             <ul className = "postsUl">
-                {feed.data.map((d, idx) => {
+                {posts.map((d, idx) => {
                     idx++; 
 
                     return (
                         <li className = "postLi">
                         <span className = "postIdx">{idx}.</span>
-                        {(auth) ? <ChangeHistoryIcon style = {buttonStyle} onClick = {() => {handleLike(username, d._id)}} style={buttonStyle} className = "postLike"/>: ""}  
                         
                             <a className = "postsLink" href = {"//" + d.post.content.link} target= "_blank">{turnCate(d.post.content.heading)} </a>
                         
@@ -46,12 +41,11 @@ export default function({feed, auth}){
                             <p className = "postLikes">{d.upVotesLen + likeOrLikes(d.upVotesLen)}</p>&nbsp;
                             <p className = "postsName">{ " By " + d.name }</p> &nbsp;
                             <p className = "postsTime">{" | "+ moment(d.time).fromNow()}</p>
-
+                            <p className = "postsDelete" onClick = {() =>{handleDelete(d._id)}}>Delete</p>
                         </span>
                     </li>)
                 })}
             </ul>
         </div>
-
     )
 }

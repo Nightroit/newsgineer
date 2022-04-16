@@ -6,24 +6,29 @@ import {connect} from 'react-redux';
 import Portal from './components/Portal';
 
 
-
+let token; 
 
 class App extends React.Component {
-
+  
   constructor(props) {
     super(props); 
+    token = localStorage.getItem('token');
+    if(isExpired(token)) {
+      localStorage.removeItem("token"); 
+    } else {
+      let details = decodeToken(token); 
+      props.detailsUpdate(details);
+    }
   }
+  
   
   render() {
     // Gettin the token
-    let token = localStorage.getItem('token');
-    if(isExpired(token)) {
-      localStorage.removeItem('token'); 
-    }
-    if(this.props.authDet.auth) {
-      return <Main/>
-    } else if(this.props.page == "login") return <Portal/>
+  
+    if(this.props.authDet.auth) return <Main token = {token} />
+    if(this.props.page == "login") return <Portal/>
     else return <Main/>
+
   }
 }
 

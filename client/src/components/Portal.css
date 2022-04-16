@@ -26,6 +26,39 @@
 .portalSlogan {
     color: #90cbf8;
     position: absolute;
-    bottom: 15%; 
-    left: 48.7%; 
+    top: -8%;  
+    left: 25.7%;
 }
+.gradient-text {
+    /* Fallback: Set a background color. */
+    background-color: red;
+    
+    /* Create the gradient. */
+    background: linear-gradient(90deg, rgba(222,228,233,1) 11%, rgba(144,203,248,1) 48%, rgba(23,111,249,1) 85%);
+
+    
+    /* Set the background size and repeat properties. */
+    background-size: 100%;
+    background-repeat: repeat;
+  
+    /* Use the text as a mask for the background. */
+    /* This will show the gradient as a text color rather than element bg. */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+  }
+  
+  .text1 { 
+      margin-bottom: -65px; 
+      font-size: 100px; 
+  }
+  .text2 {
+    margin-bottom: -35px; 
+      font-size: 75px; 
+    }
+    
+    .text3 {
+      margin-left: 3px; 
+      font-size: 50px;
+  }

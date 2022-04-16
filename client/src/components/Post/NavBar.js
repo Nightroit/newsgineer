@@ -17,20 +17,33 @@ export default function({type, auth, logout}) {
             window.location.reload(); 
         }
     }
-
+    console.log(auth);  
     return (
         
         <div className = "nav">
-            <div className = "posts" >
-                <h4 onClick = {()=> {handleClick("post")}}>
-                    Post a news
-                </h4>
-            </div>
+           
+            {(auth.auth ?
+                <div className = "posts" > 
+                    <h4 onClick = {()=> {handleClick("post")}}>
+                        Post a news
+                     </h4>
+                </div>
+            : "")}
+            
             <div className = "jobs" >
                 <h4 onClick = {() => {(handleClick("jobs"))}}>
                     Jobs
                 </h4>
             </div>
+            
+            {(auth.auth ? 
+                <div className = "Profile">
+                    <h4 onClick = {() => {(handleClick("profile"))}}>
+                        Profile
+                    </h4> 
+                </div>
+            : "")}
+            
             <div className = "news" >
                 <h4 onClick = {() => {handleClick("news")}}>
                     News

@@ -4,7 +4,7 @@ const router = express.Router();
 const keys = require("../../config/keys");
 const Posts = require("../../models/Posts");
 const User = require("../../models/User");
-const moment = require('moment')
+const moment = require('moment');
 
 function domain(num) {
   switch(num) {
@@ -43,6 +43,22 @@ function convertDate(inputFormat) {
     res.status(200)
   })
   
+  router.post("/profile", (req, res) => {
+    let username = req.body.username;
+
+    User.findOne({name: username}).populate('posts').then(async (data) => { 
+      res.status(200).json(data); 
+    })
+  })
+
+  router.post("/deletePost", (req, res) => {
+    let postId = req.body.postId;
+    Posts.findById(mongoose.Types.ObjectId(postId)).remove().then(data => {
+      res.status(200).json({msg: "Post deleted successfully!"})
+    }).catch(err => {
+      res.json({msg: "err", err}); 
+    })
+  })
 
 router.post('/post', (req, res) => {
 
@@ -60,10 +76,9 @@ router.post('/post', (req, res) => {
   })
 
   newPost.save().then((data) => {
-    
-    User.findOne({email: data.email}).then((data) => {
-      data.posts.push(data._id)
-      data.save(); 
+    User.findOne({email: data.email}).then((userdata) => {
+      userdata.posts.push(data._id)
+      userdata.save(); 
     })
   }).catch(err => {
     console.log(err); 

@@ -42,13 +42,13 @@ app.post("/api/", (req, res) => {
   let currentDate = new Date(); 
   let now = new Date();
 
-  let last = 7; 
+  let last = 7;
   if(req.body.last) {
     last = req.body.last; 
   }
 
   now.setDate(now.getDate()-last); 
-  let oldDate = now; 
+  let oldDate = now;  
   query =   {
     "createdAt": {
       $gte: oldDate,
